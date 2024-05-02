@@ -1,4 +1,4 @@
-#!/usr/bin/env python3
+#!/usr/bin/python3
 """
 module to deTERMINE if all boxes can be opened
 """
