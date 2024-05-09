@@ -14,19 +14,14 @@ def minOperations(n):
     Returns:
         The fewest number of operations needed, or 0 if n is impossible.
     """
-
-    # Base cases
-    if n == 0:
+    if n <= 1:
         return 0
-    elif n == 1:
-        return 1
-
-    dp = [float("inf")] * (n + 1)
-    dp[1] = 1
-
-    for i in range(2, n + 1):
-        for j in range(1, i // 2 + 1):
-            operations = dp[j] + 2  # Copy + Paste
-            dp[i] = min(dp[i], operations)
-
-    return dp[n] if dp[n] != float("inf") else 0
+    operations = 0
+    divisor = 2
+    while n > 1:
+        if n % divisor == 0:
+            n /= divisor
+            operations += divisor
+        else:
+            divisor += 1
+    return operations
