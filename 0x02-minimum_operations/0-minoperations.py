@@ -6,7 +6,8 @@ Minimum Operations
 
 def minOperations(n):
     """
-    Calculates the fewest number of operations needed to achieve n H characters.
+    Calculates the fewest number of operations
+    needed to achieve n H characters.
 
     Args:
         n: The desired number of H characters.
