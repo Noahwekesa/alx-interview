@@ -48,3 +48,6 @@
 ##### Algorithms in python - Full course for beginners
 
 [watch this youtube video](https://www.youtube.com/watch?v=fW_OS3LGB9Q)
+practise codes
+
+Folder: prac/
