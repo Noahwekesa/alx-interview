@@ -4,64 +4,63 @@
 import sys
 
 
-def backtrack(r, n, cols, pos, neg, board):
-    """
-    backtrack function to find solution
-    """
-    if r == n:
-        res = []
-        for l in range(len(board)):
-            for k in range(len(board[l])):
-                if board[l][k] == 1:
-                    res.append([l, k])
-        print(res)
+def is_safe(board, row, col):
+    """Checks if placing a queen at (row, col) is safe."""
+    # Check for queens in the same row
+    for c in range(col):
+        if board[row][c] == 1:
+            return False
+
+    # Check for queens in diagonals
+    i, j = row, col
+    while i >= 0 and j >= 0:
+        if board[i][j] == 1:
+            return False
+        i -= 1
+        j -= 1
+
+    i, j = row, col
+    while i < len(board) and j >= 0:
+        if board[i][j] == 1:
+            return False
+        i += 1
+        j -= 1
+
+    return True
+
+
+def solve_n_queens(board, col):
+    """Solves the N-Queens problem using backtracking."""
+    if col >= len(board):
+        for row in board:
+            for queen in row:
+                print(queen, end=" ")
+            print()
         return
 
-    for c in range(n):
-        if c in cols or (r + c) in pos or (r - c) in neg:
-            continue
-
-        cols.add(c)
-        pos.add(r + c)
-        neg.add(r - c)
-        board[r][c] = 1
-
-        backtrack(r + 1, n, cols, pos, neg, board)
-
-        cols.remove(c)
-        pos.remove(r + c)
-        neg.remove(r - c)
-        board[r][c] = 0
+    for i in range(len(board)):
+        if is_safe(board, i, col):
+            board[i][col] = 1
+            solve_n_queens(board, col + 1)
+            board[i][col] = 0  # Backtrack
 
 
-def nqueens(n):
-    """
-    Solution to nqueens problem
-    Args:
-        n (int): number of queens. Must be >= 4
-    Return:
-        List of lists representing coordinates of each
-        queen for all possible solutions
-    """
-    cols = set()
-    pos_diag = set()
-    neg_diag = set()
-    board = [[0] * n for i in range(n)]
+def n_queens(n):
+    """Main function to handle user input and solve the puzzle."""
+    if not isinstance(n, int):
+        print("N must be a number")
+        sys.exit(1)
+    if n < 4:
+        print("N must be at least 4")
+        sys.exit(1)
 
-    backtrack(0, n, cols, pos_diag, neg_diag, board)
+    board = [[0 for _ in range(n)] for _ in range(n)]
+    solve_n_queens(board, 0)
 
 
 if __name__ == "__main__":
-    n = sys.argv
-    if len(n) != 2:
+    if len(sys.argv) != 2:
         print("Usage: nqueens N")
         sys.exit(1)
-    try:
-        nn = int(n[1])
-        if nn < 4:
-            print("N must be at least 4")
-            sys.exit(1)
-        nqueens(nn)
-    except ValueError:
-        print("N must be a number")
-        sys.exit(1)
+    n = int(sys.argv[1])
+    n_queens(n)
